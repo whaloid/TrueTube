@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>TrueTube:本音で語れる本物の動画サイト</title>
+        <link rel="stylesheet" href="/static/tt_global.css">
+    </head>
+    <body>
+        <div style="text-align: left;">
+            <img src="/static/truetube_logo.jpg" style="height: 15%; width: 15%;" />
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <div>
+                <div id="player"></div>
+                <input type="hidden" value="{{ video_id }}" name="video_id" id="vid_ref" />
+                <input type="hidden" value=0 name="video_time" id="vid_t" />
+                <input type="hidden" id="rep_id" 
+                name="reputation_id" value="{{ reputation.id_ }}">
+                <h2 style="line-height: 8px;">{{ reputation.title }}</h2>
+                <p style="font-size: 15px;"><b>概要：</b></p>
+                {% for line in reputation.content.split("\n") %}
+                    <p style="font-size: 15px;">{{ line }}</p>
+                {% endfor %}
+                <script >
+                    // 2. This code loads the IFrame Player API code asynchronously.
+                    var tag = document.createElement('script');
+                    const video_id=document.getElementById("vid_ref").value
+                    var vid_t=document.getElementById("vid_t")
+
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+                    // 3. This function creates an <iframe> (and YouTube player)
+                    //    after the API code downloads.
+                    var player;
+                    function onYouTubeIframeAPIReady() {
+                    player = new YT.Player('player', {
+                        height: '360',
+                        width: '640',
+                        videoId: video_id,
+                        events: {
+                        }
+                    });
+                    }
+                    
+                    function stopVideo() {
+                        player.stopVideo();
+                    }
+
+                    setInterval(() => {    
+                        const t = player.getCurrentTime();
+                        vid_t.value=t;
+                    }, 250);
+
+                </script>
+                <div style="height: 5px;"></div>
+                <div style="width: 90%;">
+                    <h2>本音のコメント</h2>
+                    <form method="post" name="comment_form", id="add_comment" style="width: 100%;">
+                        名前：<input type="text" name="name" id="comment_name" 
+                        style="width: 100%;" class="iptstyle"/><br/>
+                        内容：<br/>
+                        <textarea name="content" id="comment_content" style="width: 100%;"
+                        class="iptstyle" required></textarea><br/>
+                        <input type="button" name="submit" id="submit_comment" 
+                        style="width: 100%;" class="postbt" value="コメントを送信"/>
+                    </form>
+                    <script src="/static/add_comment.js"></script>
+                    <div style="height: 5px;"></div>
+                    <div style="width: 100%; height: 250px;" class="scrolldiv"
+                        id="div_comments">
+                    </div>
+                </div>
+            </div>
+            <div style="width: 25%;">
+                <h2>本音のチャットログ</h2>
+                <div id="chat_log" style="height: 400px; width: 100%;" class="scrolldiv">
+                </div>
+                <form id="send_chat" name="chat_form" method="post" style="width: 100%;">
+                    名前：<input type="text" name="name" id="chat_name"
+                     style="width: 100%;" class="iptstyle"/><br/>
+                    内容：<br/>
+                    <textarea name="content" id="chat_content" 
+                    style="width: 100%;" class="iptstyle"></textarea><br/>
+                    <input type="button" id="chat_button" name="send_button" 
+                     value="チャットを送信" class="postbt" style="width: 100%;" />
+                </form>
+            </div>
+            <script src="/static/fetch_chats.js"></script>
+            <script src="/static/add_chat.js"></script>
+        </div>
+        
+        <script src="/static/fetch_comments.js"></script>
+        
+        <a href="/truetube">
+            トップへ戻る
+        </a>
+        
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>TrueTube:本音で語れる本物の動画サイト</title>
+        <link rel="stylesheet" href="/static/tt_global.css">
+    </head>
+    <body>
+        <img src="/static/truetube_logo.jpg" style="height: 30%; width: 30%;"/>
+        <h1>本音で語れる本物の動画サイト</h1>
+        <ul>
+            <li>犯行予告禁止</li>
+            <li>馴れ合い禁止</li>
+            <li>本音で語れ</li>
+        </ul>
+        <!--<a href="/create_thread"><h3>新しいスレッドを作る</h3></a> !-->
+        <div style="width: 100%; height: 250px;" class="scrolldiv">
+            {% for reputation in replis %}
+                <div style="border: 1px solid">
+                    <a href="/truetube/reputation/{{ reputation.id }}">
+                        {{ reputation.title }}
+                    </a>
+                </div>
+            {% endfor %}
+        </div> 
+        <a href="/truetube/register">
+            <h1>新しい動画を掲載する</h1>
+        </a>
+    </body>
+</html>
