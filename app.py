@@ -101,6 +101,3 @@ def tt_createpage():
             return render_template("tt_register.html")
     elif request.method=="GET":
         return render_template("tt_register.html")
-    
-if __name__ == "__main__":
-    app.run()
