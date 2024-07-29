@@ -1,8 +1,6 @@
 import datetime
 import json
 import random
-import numpy
-import cv2
 import os
 
 class Comment:
